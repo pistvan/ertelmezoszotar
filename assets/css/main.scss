@@ -1,0 +1,92 @@
+@import "./bootstrap-overrides.scss";
+
+@import "bootstrap/scss/bootstrap.scss";
+
+@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@300;600&display=swap');
+
+html {
+    min-height: 100vh;
+}
+
+body {
+    $gradient-color: lighten($light, 12);
+    background: linear-gradient(180deg, $light calc(100% - 400px), $gradient-color 100%);
+
+    &::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: -10; // move behind main elements
+
+        opacity: .15;
+
+        background-image: url('/images/bg-book.png');
+        background-position: bottom 1rem right -6rem;
+        background-size: min(45rem, 80%);
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+}
+
+header {
+    padding: 1rem 0 1.5rem;
+
+    .title {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+
+        h1 {
+            font-family: 'Alexandria', sans-serif;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+
+            span {
+                font-weight: 600;
+            }
+        }
+
+        h2 {
+            color: $secondary;
+            font-size: 1rem;
+        }
+    }
+}
+
+.container.content {
+    background: rgba($light, 0.5);
+
+    padding-bottom: 1rem;
+    border-radius: 2rem;
+
+    @include media-breakpoint-down(sm) {
+        background: none;
+        border-radius: 0;
+    }
+
+    table.hits tbody tr td {
+        em {
+            font-weight: bold;
+            font-style: normal;
+            background: rgba($primary, 0.7);
+            padding: 1px 2px;
+            border-radius: 0.25em;
+        }
+    }
+}
+
+footer {
+    font-size: 0.85rem;
+    margin-top: 2rem;
+    border-top: 1px solid white;
+    padding: 1rem 0;
+
+    a {
+        color: inherit;
+    }
+}
