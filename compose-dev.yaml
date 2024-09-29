@@ -1,0 +1,22 @@
+volumes:
+  solr:
+
+services:
+  app:
+    image: node:20-alpine3.19
+    ports:
+      - 3000:3000
+    volumes:
+      - ./src:/app
+    user: ${USER_ID}:${GROUP_ID}
+    working_dir: /app
+    command: "npm run dev"
+    environment:
+      - SOLR_URL=http://solr:8983/solr # without trailing slash
+  solr:
+    build: ./docker/solr
+    volumes:
+      - solr:/var/solr
+    ports:
+      - 8983:8983
+    command: "solr-foreground -m 128m"

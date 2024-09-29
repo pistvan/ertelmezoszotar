@@ -77,6 +77,11 @@ interface SolrWord {
     categories?: string[];
 }
 
+const solrUrl = process.env.SOLR_URL;
+if (!solrUrl) {
+    throw new Error('SOLR_URL environment variable is not set.');
+}
+
 const flatten = (target: SolrSearchQuery, options?: FlattenOptions) => {
     const flattened = rawFlatten(target, options) as Record<string, string>;
 
@@ -91,7 +96,7 @@ export const searchQuery = async (params: SolrSearchQuery) => {
     const flattenedParams = flatten(params) as Record<string, string>;
     flattenedParams.hl = 'true';
 
-    const url = new URL('http://127.0.0.1:8983/solr/meszotar/select');
+    const url = new URL(`˙${solrUrl}/meszotar/select`);
     url.search = new URLSearchParams(flattenedParams).toString();
 
     const response = await fetch(url.toString());

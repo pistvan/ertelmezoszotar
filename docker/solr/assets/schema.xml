@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema>
+    <fieldType name="string" class="solr.StrField" required="true" multiValued="false" />
+
+    <fieldType name="dictionarytext" class="solr.TextField" multiValued="false">
+        <analyzer>
+            <!-- https://solr.apache.org/guide/solr/latest/indexing-guide/filters.html -->
+            <tokenizer name="standard"/>
+            <filter name="lowercase"/>
+
+            <!-- https://github.com/apache/lucene/blob/main/lucene/analysis/common/src/resources/org/apache/lucene/analysis/snowball/hungarian_stop.txt -->
+            <filter class="solr.StopFilterFactory"
+                words="stopwords_hu.txt"
+                ignoreCase="true"
+                format="snowball" />
+
+            <!--
+                Alternative solutions:
+                1) Snowball based stemmer
+                    <filter class="solr.SnowballPorterFilterFactory" language="Hungarian" />
+                2) this less agressive stemmer:
+                    <filter name="hungarianLightStem" />
+            -->
+
+            <filter class="solr.HunspellStemFilterFactory"
+                dictionary="hu_HU_u8_gen.dic"
+                affix="hu_HU_u8_gen.aff"
+                ignoreCase="true" />
+
+            <filter class="solr.DictionaryCompoundWordTokenFilterFactory" dictionary="compound.txt" minSubwordSize="4" onlyLongestMatch="true" />
+        </analyzer>
+    </fieldType>
+
+    <fieldType name="categories" class="solr.StrField" />
+
+    <field name="id" type="string" />
+    <field name="word" type="dictionarytext" />
+    <field name="meaning" type="dictionarytext" />
+    <field name="categories" type="categories" />
+
+    <fieldType name="random" class="solr.RandomSortField" />
+    <dynamicField name="random*" type="random" indexed="true" stored="true" />
+
+    <uniqueKey>id</uniqueKey>
+</schema>
