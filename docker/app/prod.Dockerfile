@@ -15,6 +15,8 @@ RUN npm run build
 
 FROM base AS prod
 
-COPY --from=build /app/.output/server /app
+EXPOSE 3000
 
-CMD ["node", "index.mjs"]
+COPY --from=build /app/.output /app
+
+CMD ["node", "server/index.mjs"]

@@ -96,7 +96,7 @@ export const searchQuery = async (params: SolrSearchQuery) => {
     const flattenedParams = flatten(params) as Record<string, string>;
     flattenedParams.hl = 'true';
 
-    const url = new URL(`˙${solrUrl}/meszotar/select`);
+    const url = new URL(`${solrUrl}/meszotar/select`);
     url.search = new URLSearchParams(flattenedParams).toString();
 
     const response = await fetch(url.toString());

@@ -5,8 +5,6 @@ import { readBody } from 'h3';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'OPTIONS' | 'HEAD';
 
-fetch('', { method: 'POST'})
-
 export default async <T extends ObjectSchema<AnyObject>>(
     event: H3Event,
     method: HttpMethod,
