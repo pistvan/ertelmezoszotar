@@ -1,0 +1,9 @@
+{
+    "q": "test",
+    "rows": 100,
+    "defType": "dismax",
+    "qf": "word meaning",
+    "hl.fragsize": 0,
+    "hl.method": "unified",
+    "hl.encoder": "html"
+}
