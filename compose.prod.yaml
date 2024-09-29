@@ -1,0 +1,28 @@
+volumes:
+  solr:
+
+services:
+  app:
+    build:
+      dockerfile: ./docker/app/prod.Dockerfile
+      context: .
+    user: node:node
+    environment:
+      - SOLR_URL=http://solr:8983/solr # without trailing slash
+    labels:
+      traefik.enable: true
+      # HTTP
+      traefik.http.routers.ertelmezoszotar-http.entrypoints: web
+      traefik.http.routers.ertelmezoszotar-http.rule: ${TRAEFIK_RULE}
+      traefik.http.routers.ertelmezoszotar-http.middlewares: https-redirect@file
+      # HTTPS
+      traefik.http.routers.ertelmezoszotar.entrypoints: websecure
+      traefik.http.routers.ertelmezoszotar.rule: ${TRAEFIK_RULE}
+      traefik.http.routers.ertelmezoszotar.tls: true
+      traefik.http.routers.ertelmezoszotar.tls.certresolver: ${TRAEFIK_TLS_CERTRESOLVER}
+      traefik.http.routers.ertelmezoszotar.middlewares: hsts@file,gzip@file
+  solr:
+    build: ./docker/solr
+    volumes:
+      - solr:/var/solr
+    command: "solr-foreground -m 128m"

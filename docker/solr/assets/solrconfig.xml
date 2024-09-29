@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+    <luceneMatchVersion>9.0</luceneMatchVersion>
+
+	<schemaFactory class="ClassicIndexSchemaFactory" />
+
+	<requestHandler name="/select" class="solr.SearchHandler">
+		<lst name="defaults">
+			<str name="echoParams">explicit</str>
+			<int name="rows">101</int>
+		</lst>
+	</requestHandler>
+
+    <requestHandler name="/update" class="solr.UpdateRequestHandler" />
+
+	<requestDispatcher>
+		<httpCaching never304="true" />
+	</requestDispatcher>
+</config>
