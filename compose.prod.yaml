@@ -21,6 +21,14 @@ services:
       traefik.http.routers.ertelmezoszotar.tls: true
       traefik.http.routers.ertelmezoszotar.tls.certresolver: ${TRAEFIK_TLS_CERTRESOLVER}
       traefik.http.routers.ertelmezoszotar.middlewares: hsts@file,gzip@file
+  cli:
+    build:
+      dockerfile: ./docker/cli/prod.Dockerfile
+      context: .
+    environment:
+      - SOLR_URL=http://solr:8983/solr # without trailing slash
+    profiles:
+      - cli
   solr:
     build: ./docker/solr
     volumes:

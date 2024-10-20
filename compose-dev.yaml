@@ -13,6 +13,16 @@ services:
     command: "npm run dev"
     environment:
       - SOLR_URL=http://solr:8983/solr # without trailing slash
+  cli:
+    image: oven/bun:1.1-alpine
+    volumes:
+      - ./cli:/app
+    user: ${USER_ID}:${GROUP_ID}
+    working_dir: /app
+    environment:
+      - SOLR_URL=http://solr:8983/solr # without trailing slash
+    profiles:
+      - cli
   solr:
     build: ./docker/solr
     volumes:
