@@ -27,7 +27,7 @@ while true; do
     esac
 done
 
-FILE=$1
+FILE=$(realpath "$1")
 
 if [[ -z $FILE ]]; then
     echo "Database file is not set." >&2
