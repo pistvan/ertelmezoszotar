@@ -53,6 +53,14 @@ useHead({
             content: 'Tudományos és Köznyelvi Szavak Magyar Értelmező Szótára',
         },
     ],
+    script: [
+        // Google AdSense script, if the client ID is set.
+        ...(process.env.GOOGLE_ADSENSE_CLIENT_ID ? [{
+            src: `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-${process.env.GOOGLE_ADSENSE_CLIENT_ID}`,
+            async: true,
+            crossorigin: 'anonymous',
+        }] : []),
+    ],
 });
 
 const handleSubmit = async () => {

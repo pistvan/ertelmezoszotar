@@ -9,6 +9,7 @@ services:
     user: node:node
     environment:
       - SOLR_URL=http://solr:8983/solr # without trailing slash
+      - GOOGLE_ADSENSE_CLIENT_ID=${GOOGLE_ADSENSE_CLIENT_ID}
     labels:
       traefik.enable: true
       # HTTP
