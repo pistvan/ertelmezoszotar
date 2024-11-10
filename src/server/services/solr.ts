@@ -22,7 +22,7 @@ interface SolrFastVectorHighlighting {
 }
 
 interface SolrLuceneQueryParser {
-    defType: 'lucene';
+    defType?: 'lucene'; // Can be omitted, as it is the default.
     q: string;
     df?: string;
     sow?: boolean;
@@ -50,6 +50,10 @@ type SolrSearchQuery = (SolrLuceneQueryParser | SolrDisMaxQueryParser | SolrEDis
      * @link https://solr.apache.org/guide/solr/latest/query-guide/highlighting.html
      */
     hl?: SolrUnifiedHighlighting | SolrOriginalHighlighting | SolrFastVectorHighlighting | false;
+    /**
+     * @default 'score desc'
+     */
+    sort?: string;
 };
 
 interface SolrQueryResponse<T extends object> {
