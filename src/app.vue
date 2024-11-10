@@ -10,12 +10,11 @@
     <section class="container content">
         <form class="mb-3" @submit.prevent="handleSubmit">
             <div class="mb-3">
-                <label for="TODO-random" class="form-label">Kifejezés</label>
+                <label :for="searchQueryId" class="form-label">Kifejezés</label>
                 <input
-                    id="TODO-random"
+                    :id="searchQueryId"
                     v-model="searchQuery"
                     type="text"
-                    name="query"
                     class="form-control"
                 >
             </div>
@@ -69,4 +68,6 @@ const handleSubmit = async () => {
     }
     await navigateTo(`/keres/${encodeURIComponent(searchQuery.value)}`);
 };
+
+const searchQueryId = `input-${Math.random().toString(36).substring(7)}`;
 </script>
