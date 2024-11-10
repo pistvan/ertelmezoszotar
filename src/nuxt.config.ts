@@ -9,6 +9,9 @@ export default defineNuxtConfig({
           type: 'image/svg+xml',
         },
       ],
+      htmlAttrs: {
+        lang: 'hu',
+      },
     },
   },
   compatibilityDate: '2024-04-03',
