@@ -12,6 +12,16 @@ interface SqliteWord {
     cat: string;
 }
 
+const getDatabase = (filename: string): Database => {
+    return new Database(filename, { readonly: true });
+}
+
+export const getNumberOfWordsFromSqlite = (filename: string): number => {
+    const query = getDatabase(filename).query<{c: number}, []>('SELECT COUNT(*) as c FROM words');
+
+    return query.get()!.c;
+}
+
 /**
  * Get buffer chunks, convert them to a SQLite database, and return the words.
  */
@@ -19,9 +29,7 @@ export function* getWordsFromSqlite(
     filename: string,
     chunkSize: number = 5000,
 ): Generator<Word[]> {
-    const db = new Database(filename, { readonly: true });
-
-    const query = db.query<SqliteWord, []>('SELECT * FROM words');
+    const query = getDatabase(filename).query<SqliteWord, []>('SELECT * FROM words');
 
     const words = query.all().map((raw: SqliteWord): Word => ({
         id: raw.id,

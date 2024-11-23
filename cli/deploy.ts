@@ -1,5 +1,13 @@
-import { getWordsFromSqlite } from "./repositories/deployDatabase";
+import { getNumberOfWordsFromSqlite, getWordsFromSqlite } from "./repositories/deployDatabase";
 import * as SolrRepository from './repositories/solr';
+import cliProgress from 'cli-progress';
+
+/**
+ * Workaround, required to be able to stop the process with Ctrl+C.
+ */
+process.on('SIGINT', () => {
+    process.exit(1);
+});
 
 if (process.argv.length < 3) {
     console.error("Usage: deploy.ts <filename>");
@@ -8,19 +16,20 @@ if (process.argv.length < 3) {
 
 const filename = process.argv[2];
 
-const iterator = getWordsFromSqlite(filename);
+const numberOfWords = getNumberOfWordsFromSqlite(filename);
+const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
 
 console.log('Clearing Solr...');
 await SolrRepository.clear();
 
 console.log('Adding words to Solr...');
-let counter: number = 0;
-for (const chunkOfWords of iterator) {
+progressBar.start(numberOfWords, 0);
+for (const chunkOfWords of getWordsFromSqlite(filename)) {
     await SolrRepository.add(chunkOfWords);
 
-    counter += chunkOfWords.length;
-    console.log(`Added ${counter} words.`);
+    progressBar.increment(chunkOfWords.length);
 }
 
-console.log('Committing changes.');
 await SolrRepository.commit();
+
+progressBar.stop();
