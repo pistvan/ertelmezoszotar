@@ -17,10 +17,13 @@ services:
     image: oven/bun:1.1-alpine
     volumes:
       - ./cli:/app
+      - ./src/public:/public
     user: ${USER_ID}:${GROUP_ID}
     working_dir: /app
     environment:
       - SOLR_URL=http://solr:8983/solr # without trailing slash
+      - SITEMAP_URL_BASE=${SITEMAP_URL_BASE}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
     profiles:
       - cli
   solr:

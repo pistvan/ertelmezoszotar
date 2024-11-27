@@ -1,5 +1,6 @@
 volumes:
   solr:
+  public:
 
 services:
   app:
@@ -23,12 +24,17 @@ services:
       traefik.http.routers.ertelmezoszotar.tls: true
       traefik.http.routers.ertelmezoszotar.tls.certresolver: ${TRAEFIK_TLS_CERTRESOLVER}
       traefik.http.routers.ertelmezoszotar.middlewares: hsts@file,gzip@file
+    volumes:
+      - public:/app/public
   cli:
     build:
       dockerfile: ./docker/cli/prod.Dockerfile
       context: .
+    volumes:
+      - public:/public
     environment:
       - SOLR_URL=http://solr:8983/solr # without trailing slash
+      - SITEMAP_URL_BASE=${SITEMAP_URL_BASE}
     profiles:
       - cli
   solr:
