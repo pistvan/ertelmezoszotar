@@ -1,13 +1,18 @@
 volumes:
   solr:
+  sitemaps:
 
 services:
   app:
-    image: node:20-alpine3.19
+    build:
+      dockerfile: ./docker/app/Dockerfile
+      target: base
+      context: .
     ports:
       - 3000:3000
     volumes:
       - ./src:/app
+      - sitemaps:/sitemaps
     user: ${USER_ID}:${GROUP_ID}
     working_dir: /app
     command: "npm run dev"
@@ -17,10 +22,13 @@ services:
     image: oven/bun:1.1-alpine
     volumes:
       - ./cli:/app
+      - sitemaps:/sitemaps
     user: ${USER_ID}:${GROUP_ID}
     working_dir: /app
     environment:
       - SOLR_URL=http://solr:8983/solr # without trailing slash
+      - SITEMAP_URL_BASE=${SITEMAP_URL_BASE}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
     profiles:
       - cli
   solr:
