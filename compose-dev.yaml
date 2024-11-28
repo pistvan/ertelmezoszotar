@@ -1,13 +1,18 @@
 volumes:
   solr:
+  sitemaps:
 
 services:
   app:
-    image: node:20-alpine3.19
+    build:
+      dockerfile: ./docker/app/Dockerfile
+      target: base
+      context: .
     ports:
       - 3000:3000
     volumes:
       - ./src:/app
+      - sitemaps:/sitemaps
     user: ${USER_ID}:${GROUP_ID}
     working_dir: /app
     command: "npm run dev"
@@ -17,7 +22,7 @@ services:
     image: oven/bun:1.1-alpine
     volumes:
       - ./cli:/app
-      - ./src/public:/public
+      - sitemaps:/sitemaps
     user: ${USER_ID}:${GROUP_ID}
     working_dir: /app
     environment:

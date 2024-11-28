@@ -1,7 +1,10 @@
 import { XMLBuilder } from "fast-xml-parser";
 import * as fs from 'fs';
 
-const PUBLIC_FOLDER = '/public';
+/**
+ * Folder where the sitemap files are stored.
+ */
+const SITEMAPS_FOLDER = '/sitemaps';
 
 /**
  * Maximum allowed size of the URL tags in a sitemap file.
@@ -18,9 +21,9 @@ const XMLNS = `xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"`;
 const clearOldSitemapFiles = () => {
     const regex = /^sitemap.*\.xml$/;
 
-    fs.readdirSync(PUBLIC_FOLDER)
+    fs.readdirSync(SITEMAPS_FOLDER)
         .filter(file => regex.test(file))
-        .map(file => `${PUBLIC_FOLDER}/${file}`)
+        .map(file => `${SITEMAPS_FOLDER}/${file}`)
         .forEach(fs.unlinkSync);
 }
 
@@ -29,7 +32,7 @@ const clearOldSitemapFiles = () => {
  */
 const saveSitemapFile = (index: number, encodedTags: string[]) => {
     fs.writeFileSync(
-        `${PUBLIC_FOLDER}/sitemap${index}.xml`,
+        `${SITEMAPS_FOLDER}/sitemap${index}.xml`,
         `<?xml version="1.0" encoding="UTF-8"?>\n<urlset ${XMLNS}>\n${encodedTags.join('')}</urlset>`,
     );
 }
@@ -42,11 +45,11 @@ const saveSitemapIndexFile = (numberOfFiles: number) => {
 
     const sitemaps = Array.from(
         { length: numberOfFiles },
-        (_, i) => ({ loc: `${process.env.SITEMAP_URL_BASE}/sitemap${i + 1}.xml` }),
+        (_, i) => ({ loc: `${process.env.SITEMAP_URL_BASE}/sitemap.xml?index=${i + 1}` }),
     );
 
     fs.writeFileSync(
-        `${PUBLIC_FOLDER}/sitemap.xml`,
+        `${SITEMAPS_FOLDER}/sitemap.xml`,
         `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex ${XMLNS}>\n${sitemapBuilder.build(sitemaps)}</sitemapindex>`,
     );
 }

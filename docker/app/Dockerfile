@@ -1,5 +1,8 @@
 FROM node:20-alpine3.19 AS base
 
+RUN mkdir -p /sitemaps && \
+    chown 1000:1000 /sitemaps
+
 WORKDIR /app
 
 FROM base AS build
