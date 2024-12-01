@@ -35,7 +35,7 @@ export function* getWordsFromSqlite(
         id: raw.id,
         word: raw.word,
         meaning: raw.meaning,
-        categories: raw.cat.split('/'),
+        categories: raw.cat.split('/').filter((c) => c.length > 0),
     }));
 
     // Yield the words in chunks.
