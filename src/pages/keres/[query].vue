@@ -1,8 +1,9 @@
 <template>
 <div>
     <!-- Loader -->
-    <div v-if="result.status.value === 'pending'">
-        loading
+    <div v-if="result.status.value === 'pending'" class="d-flex align-items-center gap-2">
+        <div class="spinner-border" role="status" />
+        <span>Keresés...</span>
     </div>
     <!-- We found hits. -->
     <HitTable v-if="result.data.value?.length" :hits="result.data.value" />
