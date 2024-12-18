@@ -53,6 +53,9 @@ useHead({
         },
     ],
     script: [
+        {
+            innerHTML: `window.gtag_enable_tcf_support = true;`,
+        },
         // Google AdSense script, if the client ID is set.
         ...(process.env.GOOGLE_ADSENSE_CLIENT_ID ? [{
             src: `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-${process.env.GOOGLE_ADSENSE_CLIENT_ID}`,
