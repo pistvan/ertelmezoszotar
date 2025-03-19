@@ -7,10 +7,16 @@
         </tr>
     </thead>
     <tbody>
-        <tr v-for="(hit, index) in hits" :key="index">
+        <tr
+            v-for="(hit, index) in hits"
+            :key="index"
+            itemprop="itemListElement"
+            itemscope
+            itemtype="https://schema.org/ListItem"
+        >
             <td>
                 <!-- eslint-disable-next-line vue/no-v-html -->
-                <span v-html="hit.word" />
+                <span itemprop="name" v-html="hit.word" />
 
                 <div v-if="hit.categories" class="categories small">
                     <span
@@ -23,7 +29,7 @@
                 </div>
             </td>
             <!-- eslint-disable-next-line vue/no-v-html -->
-            <td v-html="hit.meaning" />
+            <td itemprop="desciption" v-html="hit.meaning" />
         </tr>
     </tbody>
 </table>

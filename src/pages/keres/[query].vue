@@ -6,7 +6,12 @@
         <span>Keresés...</span>
     </div>
     <!-- We found hits. -->
-    <HitTable v-if="result.data.value?.length" :hits="result.data.value" />
+    <div v-if="result.data.value?.length" itemscope itemtype="https://schema.org/ItemList">
+        <h2 itemprop="name">Találatok erre: <span>{{ route.params.query }}</span></h2>
+        <!-- results are ordered descending by score -->
+        <link itemprop="itemListOrder" href="https://schema.org/ItemListOrderDescending">
+        <HitTable :hits="result.data.value" />
+    </div>
     <!-- No hits found. -->
     <div v-else class="alert alert-warning">
         <h4>Nincs találat. 😮</h4>
